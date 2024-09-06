@@ -4,11 +4,10 @@ pub async fn create_user(client: &PrismaClient, id: i32, name: String, manager_i
     client
     .users()
     .create(
+        id,
         name, 
-        vec![
-            users::id::set(id),
-            users::manager_id::set(Some(manager_id))
-        ]
+        manager_id,
+        vec![],
     )
     .exec()
     .await
@@ -21,9 +20,10 @@ pub async fn create_comment(client: &PrismaClient, user_id: i32, commnet_id: i32
         .comments()
         .create(
             "test".to_string(),
+            commnet_id,
             users::UniqueWhereParam::IdEquals(user_id),
             vec![
-                comments::id::set(commnet_id),
+                comments::user_id::set(user_id),
             ]
         )
         .exec()

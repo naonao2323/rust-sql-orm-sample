@@ -1,0 +1,7 @@
+FROM arigaio/atlas:0.25.0
+
+COPY migrator/migrations /migrations
+
+COPY migrator/atlas.hcl .
+
+

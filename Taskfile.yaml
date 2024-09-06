@@ -1,0 +1,99 @@
+version: '3'
+
+# container up -> build arthifact
+# container up -> test
+# container up -> migration
+
+env:
+  DATABASE_URL: mysql://root:root@localhost:3305/app
+
+tasks: 
+  default:
+    desc: show commands
+    cmds:
+      - task -l --sort none
+  up:
+    desc: build arthifact
+    deps:
+      - task: mig-up
+      - task: prisma
+    cmds:
+      - task: build-rust-package
+        vars: {PACKAGE: 'diesel_test'}
+      - task: build-rust-package
+        vars: {PACKAGE: 'prisma_test'}
+      - task: build-rust-package
+        vars: {PACKAGE: 'sqlx_test'}
+      - task: build-rust-package
+        vars: {PACKAGE: 'sea_orm_test'}
+  down:
+    desc: delete container and value 
+    dir: '{{.USER_WORKING_DIR}}'
+    cmds:
+      - docker-compose down --rmi all --volumes --remove-orphans
+  test:
+    desc: run all test
+    dir: '{{.USER_WORKING_DIR}}'
+    deps:
+      - task: mig-up
+    cmds:
+      - task: test-rust-package
+        vars: {PACKAGE: 'diesel_test'}
+      - task: test-rust-package
+        vars: {PACKAGE: 'prisma_test'}
+      - task: test-rust-package
+        vars: {PACKAGE: 'sqlx_test'}
+      - task: test-rust-package
+        vars: {PACKAGE: 'sea_orm_test'}
+  mig-up:
+    desc: migrate up by atlas
+    deps: [container-up]
+    dir: '{{.USER_WORKING_DIR}}/migrator'
+    cmds:
+      - atlas schema apply --env local --to "file://migrations" --auto-approve
+    required:
+      vars: [TARGET]
+  mig-plan:
+    desc: show migration plan by atlas
+    dir: '{{.USER_WORKING_DIR}}/migrator'
+    cmds:
+      -  atlas schema diff --env local --dev-url "docker://mysql/8/dev" --from {{.DATABASE_URL}} --to "file://migrations"
+  mig-dry:
+    desc: dry run migration by atlas
+    dir: '{{.USER_WORKING_DIR}}/migrator'
+    cmds:
+      - atlas schema apply --env local --to "file://migrations" --dry-run
+  prisma:
+    decs: generarte prisma entity
+    dir: '{{.USER_WORKING_DIR}}/prisma_test'
+    cmds:
+      - cargo prisma generate
+
+  container-up:
+    desc: container up
+    run: once
+    dir: '{{.USER_WORKING_DIR}}'
+    cmds:
+      - docker compose up -d
+    stauts:
+      - test -f ./docker-compose.yaml
+    silent: true
+    internal: true
+  build-rust-package:
+    desc: build rust package
+    run: when_changed
+    dir: '{{.USER_WORKING_DIR}}/{{.PACKAGE}}'
+    cmds: 
+      - cargo build
+    required:
+      vars: [PACKAGE]
+    internal: true
+  test-rust-package:
+    desc: test rust package
+    dir: '{{.USER_WORKING_DIR}}/{{.PACKAGE}}'
+    cmds: 
+      - cargo test
+    required:
+      vars: [PACKAGE]
+    internal: true  
+ 
