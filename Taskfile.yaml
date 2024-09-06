@@ -50,6 +50,7 @@ tasks:
     deps: [container-up]
     dir: '{{.USER_WORKING_DIR}}/migrator'
     cmds:
+      - sleep 10
       - atlas migrate apply --env local
     required:
       vars: [TARGET]

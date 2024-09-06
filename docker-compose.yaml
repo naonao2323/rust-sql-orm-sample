@@ -10,11 +10,13 @@ services:
       MYSQL_DATABASE: app
     ports:
       - 3305:3306
+    command: --wait_timeout=90000 --interactive_timeout=90000
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p$MYSQL_ROOT_PASSWORD"]
       interval: 30s
       timeout: 5s
       retries: 6
       start_period: 30s
+
 
     
