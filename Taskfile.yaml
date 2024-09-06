@@ -50,7 +50,7 @@ tasks:
     deps: [container-up]
     dir: '{{.USER_WORKING_DIR}}/migrator'
     cmds:
-      - atlas schema apply --env local --to "file://migrations" --auto-approve
+      - atlas migrate apply --url "mysql://root:root@mysql:3305/app" --dir "file://migrations"
     required:
       vars: [TARGET]
   mig-plan:
@@ -63,6 +63,16 @@ tasks:
     dir: '{{.USER_WORKING_DIR}}/migrator'
     cmds:
       - atlas schema apply --env local --to "file://migrations" --dry-run
+  mig-down:
+    desc: migration down
+    dir: '{{.USER_WORKING_DIR}}/migrator'
+    cmds:
+      - atlas migrate down   --url "mysql://root:root@localhost:3305/app"   --dir "file://migrations" --dev-url "docker://mysql/8/dev"
+  mig-rehash:
+    desc: atras rehash
+    dir: '{{.USER_WORKING_DIR}}/migrator'
+    cmds:
+      - atlas migrate hash
   prisma:
     decs: generarte prisma entity
     dir: '{{.USER_WORKING_DIR}}/prisma_test'
@@ -71,11 +81,8 @@ tasks:
   run:
     desc: run package -- package name
     dir: '{{ .USER_WORKING_DIR }}/{{ .CLI_ARGS }}'
-    deps:
-      - task: mig-up
     cmds:
       - cargo run
-
   container-up:
     desc: container up
     run: once
@@ -85,7 +92,17 @@ tasks:
     stauts:
       - test -f ./docker-compose.yaml
     silent: true
-    internal: true
+  diesel-mig-up:
+    desc: migration by diesel
+    dir: '{{.USER_WORKING_DIR}}/diesel_test'
+    cmds:
+      - diesel migration run --database-url mysql://root:root@mysql:3305/app
+  diesel-mig-down:
+    desc: migration by diesel
+    dir: '{{.USER_WORKING_DIR}}/diesel_test'
+    cmds:
+      - diesel migration revert --database-url mysql://root:root@mysql:3305/app
+
   build-rust-package:
     desc: build rust package
     run: when_changed
