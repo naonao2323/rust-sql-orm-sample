@@ -79,6 +79,11 @@ tasks:
     dir: '{{.USER_WORKING_DIR}}/prisma_test'
     cmds:
       - cargo prisma generate
+  prisma-push:
+    decs: push prisma migrate
+    dir: '{{.USER_WORKING_DIR}}/prisma_test'
+    cmds:
+      - cargo prisma db push
   run:
     desc: run package -- package name
     dir: '{{ .USER_WORKING_DIR }}/{{ .CLI_ARGS }}'
