@@ -68,6 +68,13 @@ tasks:
     dir: '{{.USER_WORKING_DIR}}/prisma_test'
     cmds:
       - cargo prisma generate
+  run:
+    desc: run package -- package name
+    dir: '{{ .USER_WORKING_DIR }}/{{ .CLI_ARGS }}'
+    deps:
+      - task: mig-up
+    cmds:
+      - cargo run
 
   container-up:
     desc: container up
@@ -95,5 +102,5 @@ tasks:
       - cargo test
     required:
       vars: [PACKAGE]
-    internal: true  
+    internal: true
  
