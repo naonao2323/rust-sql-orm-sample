@@ -89,6 +89,13 @@ tasks:
     dir: '{{ .USER_WORKING_DIR }}/{{ .CLI_ARGS }}'
     cmds:
       - cargo run
+  test:
+    desc: run package -- package name
+    dir: '{{ .USER_WORKING_DIR }}/{{ .CLI_ARGS }}'
+    deps:
+      - task: mig-up
+    cmds:
+      - cargo test -- --nocapture
   container-up:
     desc: container up
     run: once

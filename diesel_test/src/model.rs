@@ -47,7 +47,7 @@ pub mod models {
     }
     
 
-    #[derive(QueryableByName, Debug)]
+    #[derive(QueryableByName, Debug, PartialEq)]
     pub struct UserComment {
         #[sql_type = "Varchar"]
         pub test: String,
