@@ -1,0 +1,11 @@
+[package]
+name = "sea_orm_test"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+sea-orm = { version = "1.0.1", features = ["sqlx-mysql", "runtime-tokio-native-tls", "macros"] }
+axum = { version = "0.7.5"}
+tokio = { version = "1.38.0", features = ["full"] }
+dotenvy = "0.15"
+
