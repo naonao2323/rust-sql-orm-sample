@@ -108,7 +108,16 @@ tasks:
     dir: '{{.USER_WORKING_DIR}}/diesel_test'
     cmds:
       - diesel migration revert --database-url mysql://root:root@mysql:3305/app
-
+  sqlx-mig-up:
+    desc: migrate by sqlx
+    dir: '{{.USER_WORKING_DIR}}/sqlx_test'
+    cmds: 
+      - sqlx migrate run
+  sqlx-mig-down:
+    desc: migrate down by sqlx
+    dir: '{{.USER_WORKING_DIR}}/sqlx_test'
+    cmds:
+      - sqlx migrate revert
   build-rust-package:
     desc: build rust package
     run: when_changed
