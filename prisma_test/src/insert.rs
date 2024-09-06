@@ -22,9 +22,7 @@ pub async fn create_comment(client: &PrismaClient, user_id: i32, commnet_id: i32
             "test".to_string(),
             commnet_id,
             users::UniqueWhereParam::IdEquals(user_id),
-            vec![
-                comments::user_id::set(user_id),
-            ]
+            vec![]
         )
         .exec()
         .await
