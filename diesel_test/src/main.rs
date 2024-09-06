@@ -25,13 +25,13 @@ async fn main() {
         Ok(conn) => Arc::new(Mutex::new(conn)),
         Err(_) => panic!("fail to get connection"),
     };
-    insert::create_user(conn).await;
+    insert::create_user(conn, 1).await;
 
     let conn = match pool.get() {
         Ok(conn) => Arc::new(Mutex::new(conn)),
         Err(_) => panic!("fail to get connection"),
     };
-    update::update_user(conn).await;
+    update::update_user(conn, 1).await;
 
 
     let conn = match pool.get() {

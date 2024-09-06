@@ -84,11 +84,18 @@ tasks:
     dir: '{{.USER_WORKING_DIR}}/prisma_test'
     cmds:
       - cargo prisma db push
-  run:
+  run-pkg:
     desc: run package -- package name
     dir: '{{ .USER_WORKING_DIR }}/{{ .CLI_ARGS }}'
     cmds:
       - cargo run
+  test-pkg:
+    desc: run package -- package name
+    dir: '{{ .USER_WORKING_DIR }}/{{ .CLI_ARGS }}'
+    deps:
+      - task: mig-up
+    cmds:
+      - cargo test -- --nocapture
   container-up:
     desc: container up
     run: once
