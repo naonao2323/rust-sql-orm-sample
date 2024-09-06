@@ -84,12 +84,12 @@ tasks:
     dir: '{{.USER_WORKING_DIR}}/prisma_test'
     cmds:
       - cargo prisma db push
-  run:
+  run-pkg:
     desc: run package -- package name
     dir: '{{ .USER_WORKING_DIR }}/{{ .CLI_ARGS }}'
     cmds:
       - cargo run
-  test:
+  test-pkg:
     desc: run package -- package name
     dir: '{{ .USER_WORKING_DIR }}/{{ .CLI_ARGS }}'
     deps:
