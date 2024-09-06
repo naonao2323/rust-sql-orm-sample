@@ -50,7 +50,7 @@ tasks:
     deps: [container-up]
     dir: '{{.USER_WORKING_DIR}}/migrator'
     cmds:
-      - atlas migrate apply --url "mysql://root:root@mysql:3305/app" --dir "file://migrations"
+      - atlas migrate apply --url "mysql://root:root@localhost:3305/app" --dir "file://migrations"
     required:
       vars: [TARGET]
   mig-plan:
