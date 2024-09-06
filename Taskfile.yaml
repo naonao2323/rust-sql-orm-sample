@@ -118,6 +118,16 @@ tasks:
     dir: '{{.USER_WORKING_DIR}}/sqlx_test'
     cmds:
       - sqlx migrate revert
+  sea-mig-up:
+    desc: migrate up by sea-orm
+    dir: '{{.USER_WORKING_DIR}}/sea_orm_test'
+    cmds:
+      - sea-orm-cli migrate up
+  sea-mig-down:
+    desc: migrate down by sea-orm
+    dir: '{{.USER_WORKING_DIR}}/sea_orm_test'
+    cmds:
+      - sea-orm-cli migrate down
   build-rust-package:
     desc: build rust package
     run: when_changed
