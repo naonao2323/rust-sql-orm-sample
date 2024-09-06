@@ -50,7 +50,7 @@ tasks:
     deps: [container-up]
     dir: '{{.USER_WORKING_DIR}}/migrator'
     cmds:
-      - atlas migrate apply --url "mysql://root:root@localhost:3305/app" --dir "file://migrations"
+      - atlas migrate apply --env local
     required:
       vars: [TARGET]
   mig-plan:
@@ -62,12 +62,12 @@ tasks:
     desc: dry run migration by atlas
     dir: '{{.USER_WORKING_DIR}}/migrator'
     cmds:
-      - atlas schema apply --env local --to "file://migrations" --dry-run
+      - atlas migrate apply --env local --dry-run
   mig-down:
     desc: migration down
     dir: '{{.USER_WORKING_DIR}}/migrator'
     cmds:
-      - atlas migrate down   --url "mysql://root:root@localhost:3305/app"   --dir "file://migrations" --dev-url "docker://mysql/8/dev"
+      - atlas migrate down --env local
   mig-rehash:
     desc: atras rehash
     dir: '{{.USER_WORKING_DIR}}/migrator'
