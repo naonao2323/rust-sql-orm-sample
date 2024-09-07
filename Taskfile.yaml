@@ -6,6 +6,9 @@ version: '3'
 
 env:
   DATABASE_URL: mysql://root:root@localhost:3305/app
+  DATABASE_USER_NAME: root
+  DATABASE_USER_PASS: root
+  DATABASE_NAME: app
 
 tasks: 
   default:
@@ -136,7 +139,7 @@ tasks:
     cmds:
       - sea-orm-cli migrate down
   golang-mig-create:
-    desc: create migration file
+    desc: create migration file -- fine name
     dir: '{{.USER_WORKING_DIR}}/golang-migrate'
     cmds:
       - migrate create -ext sql -dir ./migrations -seq {{ .CLI_ARGS }}
@@ -150,6 +153,21 @@ tasks:
     dir: '{{.USER_WORKING_DIR}}/golang-migrate'
     cmds:
       - migrate -path ./migrations -database "mysql://root:root@tcp(localhost:3305)/app" down 1
+  goose-mig-up:
+    desc: migrate by goose
+    dir: '{{.USER_WORKING_DIR}}/goose'
+    cmds:
+      -  GOOSE_DRIVER=mysql GOOSE_DBSTRING="root:root@tcp(localhost:3305)/app" goose -dir ./migrations up
+  goose-mig-status:
+    desc: show migrate status by goose
+    dir: '{{.USER_WORKING_DIR}}/goose'
+    cmds:
+      -  GOOSE_DRIVER=mysql GOOSE_DBSTRING="root:root@tcp(localhost:3305)/app" goose -dir ./migrations status
+  goose-mig-down:
+    desc: migrate down by goose -- version
+    dir: '{{.USER_WORKING_DIR}}/goose'
+    cmds:
+      - GOOSE_DRIVER=mysql GOOSE_DBSTRING="root:root@tcp(localhost:3305)/app" goose -dir ./migrations down-to {{ .CLI_ARGS }}
   build-rust-package:
     desc: build rust package
     run: when_changed
