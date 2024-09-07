@@ -135,6 +135,21 @@ tasks:
     dir: '{{.USER_WORKING_DIR}}/sea_orm_test'
     cmds:
       - sea-orm-cli migrate down
+  golang-mig-create:
+    desc: create migration file
+    dir: '{{.USER_WORKING_DIR}}/golang-migrate'
+    cmds:
+      - migrate create -ext sql -dir ./migrations -seq {{ .CLI_ARGS }}
+  golang-mig-up:
+    desc: migrate by golang-migrate
+    dir: '{{.USER_WORKING_DIR}}/golang-migrate'
+    cmds:
+      - migrate -path ./migrations -database "mysql://root:root@tcp(localhost:3305)/app" up
+  golang-mig-down:
+    desc: migrate by golang-migrate
+    dir: '{{.USER_WORKING_DIR}}/golang-migrate'
+    cmds:
+      - migrate -path ./migrations -database "mysql://root:root@tcp(localhost:3305)/app" down 1
   build-rust-package:
     desc: build rust package
     run: when_changed
