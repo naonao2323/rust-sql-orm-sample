@@ -4,13 +4,13 @@ use sea_orm_test::{connection, delete::delete_user, get::get_users, insert::{cre
 async fn main() {
     let pool = connection::new_poll().await.expect("fail to get connnection pool");
 
-    // let _ = create_user(&pool, 1, "test".to_string(), 1).await;
+    let _ = create_user(&pool, 1, "test".to_string(), 1).await;
 
-    // let _ = update_user(&pool, 1, "test2".to_string()).await;
+    let _ = update_user(&pool, 1, "test2".to_string()).await;
 
-    // let _ = create_comments(&pool).await;
+    let _ = create_comments(&pool).await;
 
-    let _ = create_user_and_comment_v2(&pool, 1, "test".to_string(), 1, 1).await;
+    // let _ = create_user_and_comment_v2(&pool, 1, "test".to_string(), 1, 1).await;
 
     let users = get_users(&pool).await;
     print!("{:?}", users);

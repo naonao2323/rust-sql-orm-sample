@@ -1,4 +1,4 @@
-use sqlx_test::{connection::new_poll, delete::delete_user, get::{get_user, User}, insert::{create_commnet, create_user}, select::select_comments_by_v2, update::update_users};
+use sqlx_test::{connection::new_poll, delete::delete_user, get::{get_user, User}, insert::{create_commnet, create_user, create_user_and_comment_v1}, select::select_comments_by_v2, update::update_users};
 
 #[tokio::main]
 async fn main() {
@@ -9,6 +9,8 @@ async fn main() {
     let _ = create_commnet(&pool, 1, 1, "test".to_string()).await;
 
     let _ = update_users(&pool, 1, "test1".to_string()).await;
+
+    // let _ = create_user_and_comment_v1(&pool, 1, 1, "test".to_string()).await;
 
     let user = get_user(&pool, 1).await;
     println!("{:?}", user);
