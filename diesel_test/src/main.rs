@@ -25,40 +25,28 @@ async fn main() {
         Ok(conn) => Arc::new(Mutex::new(conn)),
         Err(_) => panic!("fail to get connection"),
     };
-    insert::create_user(conn, 1).await;
+    insert::create_user(conn.clone(), 1).await;
+    update::update_user(conn.clone(), 1).await;
+    insert::create_commnet(conn.clone(), 1).await;
+
+    let conn = match pool.get() {
+        Ok(conn) => Mutex::new(conn),
+        Err(_) => panic!("fail to get connection"),
+    };
+    insert::create_user_and_comment(conn).await;
 
     let conn = match pool.get() {
         Ok(conn) => Arc::new(Mutex::new(conn)),
         Err(_) => panic!("fail to get connection"),
     };
-    update::update_user(conn, 1).await;
 
-
-    let conn = match pool.get() {
-        Ok(conn) => Arc::new(Mutex::new(conn)),
-        Err(_) => panic!("fail to get connection"),
-    };
-    insert::create_commnet(conn, 1).await;
-
-    let conn = match pool.get() {
-        Ok(conn) => Arc::new(Mutex::new(conn)),
-        Err(_) => panic!("fail to get connection"),
-    };
-    let comments = select::select_comments_by(1, conn).await;
+    let comments = select::select_comments_by(1, conn.clone()).await;
     println!("{:?}", comments);
 
-    let conn = match pool.get() {
-        Ok(conn) => Arc::new(Mutex::new(conn)),
-        Err(_) => panic!("fail to get connection"),
-    };
-    let comments_v2 = select::select_comments_by_v2(1, conn).await;
+    let comments_v2 = select::select_comments_by_v2(1, conn.clone()).await;
     println!("{:?}", comments_v2);
     
-    let conn = match pool.get() {
-        Ok(conn) => Arc::new(Mutex::new(conn)),
-        Err(_) => panic!("fail to get connection"),
-    };
-    let users = get::get_users(conn).await;
+    let users = get::get_users(conn.clone()).await;
     print!("{:?}", users);
 
     let conn = match pool.get() {
