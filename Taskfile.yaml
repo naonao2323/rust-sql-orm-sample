@@ -53,10 +53,15 @@ tasks:
     deps: [container-up]
     dir: '{{.USER_WORKING_DIR}}/migrator'
     cmds:
-      - sleep 10
       - atlas migrate apply --env local
     required:
       vars: [TARGET]
+  mig-diff:
+    desc: generate migration file by atlas
+    deps: [container-up]
+    dir: '{{.USER_WORKING_DIR}}/migrator'
+    cmds:
+      - atlas migrate diff create_users --dir "file://migrations" --to "file://schema/schema.hcl" --dev-url "docker://mysql/8/dev"
   mig-plan:
     desc: show migration plan by atlas
     dir: '{{.USER_WORKING_DIR}}/migrator'
