@@ -1,0 +1,21 @@
+[package]
+name = "rbatis_test"
+version = "0.1.0"
+edition = "2021"
+
+[features]
+
+[dependencies]
+#rbatis deps
+rbs = { version = "4.5"}
+rbatis = { version = "4.5"}
+# rbdc-sqlite = { version = "4.5" }
+rbdc-mysql={version="4.5"}
+#rbdc-pg={version="4.5"}
+#rbdc-mssql={version="4.5"}
+
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+tokio = { version = "1", features = ["full"] }
+log = "0.4"
+fast_log = "1.6"
