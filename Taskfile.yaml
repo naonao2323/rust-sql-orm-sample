@@ -173,6 +173,12 @@ tasks:
     dir: '{{.USER_WORKING_DIR}}/goose'
     cmds:
       - GOOSE_DRIVER=mysql GOOSE_DBSTRING="root:root@tcp(localhost:3305)/app" goose -dir ./migrations down-to {{ .CLI_ARGS }}
+  sqldef-apply:
+    desc: migrate apply by sqldef
+    dir: '{{.USER_WORKING_DIR}}/sqldef'
+    cmds:
+      - ./mysqldef -uroot -proot -hmysql -P3305 app < schema.sql
+
   build-rust-package:
     desc: build rust package
     run: when_changed
