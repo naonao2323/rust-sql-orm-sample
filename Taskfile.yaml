@@ -113,6 +113,11 @@ tasks:
     stauts:
       - test -f ./docker-compose.yaml
     silent: true
+  diesel-mig-generate:
+    desc: generate file by diesel -- filename
+    dir: '{{.USER_WORKING_DIR}}/diesel_test'
+    cmds:
+      - diesel migration generate {{ .CLI_ARGS }}
   diesel-mig-up:
     desc: migration by diesel
     dir: '{{.USER_WORKING_DIR}}/diesel_test'
