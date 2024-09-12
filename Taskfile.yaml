@@ -198,7 +198,11 @@ tasks:
     dir: '{{.USER_WORKING_DIR}}/sqldef'
     cmds:
       - ./mysqldef -uroot -proot -hmysql -P3305 app < schema.sql
-
+  sqldef-apply-f:
+    desc: fource migrate apply by sql def
+    dir: '{{.USER_WORKING_DIR}}/sqldef'
+    cmds:
+      -  ./mysqldef -uroot -proot -hmysql -P3305 app --enable-drop-table < schema.sql
   build-rust-package:
     desc: build rust package
     run: when_changed
