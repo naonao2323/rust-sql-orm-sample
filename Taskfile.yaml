@@ -138,6 +138,11 @@ tasks:
     dir: '{{.USER_WORKING_DIR}}/sqlx_test'
     cmds:
       - sqlx migrate revert
+  sea-mig-generate:
+    desc: generatea migration by sea-orm --filename
+    dir: '{{.USER_WORKING_DIR}}/sea_orm_test'
+    cmds:
+      - sea-orm-cli migrate generate {{ .CLI_ARGS }}
   sea-mig-up:
     desc: migrate up by sea-orm
     dir: '{{.USER_WORKING_DIR}}/sea_orm_test'
