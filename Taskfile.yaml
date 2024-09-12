@@ -128,6 +128,11 @@ tasks:
     dir: '{{.USER_WORKING_DIR}}/diesel_test'
     cmds:
       - diesel migration revert --database-url mysql://root:root@mysql:3305/app
+  sqlx-mig-generate:
+    desc: generate migration file by sqlx -- filename
+    dir: '{{.USER_WORKING_DIR}}/sqlx_test'
+    cmds:
+      - sqlx migrate add {{ .CLI_ARGS }}
   sqlx-mig-up:
     desc: migrate by sqlx
     dir: '{{.USER_WORKING_DIR}}/sqlx_test'
