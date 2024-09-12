@@ -173,6 +173,11 @@ tasks:
     dir: '{{.USER_WORKING_DIR}}/golang-migrate'
     cmds:
       - migrate -path ./migrations -database "mysql://root:root@tcp(localhost:3305)/app" down 1
+  goose-generate:
+    desc: generate migration by goose
+    dir: '{{.USER_WORKING_DIR}}/goose/migrations'
+    cmds:
+      - goose create {{ .CLI_ARGS }} sql
   goose-mig-up:
     desc: migrate by goose
     dir: '{{.USER_WORKING_DIR}}/goose'
