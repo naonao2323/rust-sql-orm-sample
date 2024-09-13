@@ -19,7 +19,8 @@ use diesel_test::update;
 
 #[tokio::main]
 async fn main() {
-    let pool = connection::establish_connection();
+    let database_url = "mysql://root:root@mysql:3305/app";
+    let pool = connection::establish_connection(&database_url);
 
     let conn = match pool.get() {
         Ok(conn) => Arc::new(Mutex::new(conn)),

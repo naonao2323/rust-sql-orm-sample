@@ -12,7 +12,8 @@ use diesel::result::Error;
 
 #[tokio::test] 
 async fn main() {
-    let pool = connection::establish_connection();
+    let database_url = "mysql://root:root@localhost:3305/app";
+    let pool = connection::establish_connection(&database_url);
     delete_all(&pool);
     upsert_and_get(&pool).await;
     delete_all(&pool);

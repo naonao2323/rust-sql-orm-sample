@@ -18,7 +18,6 @@ tasks:
   up:
     desc: build arthifact
     deps:
-      - task: mig-up
       - task: prisma
     cmds:
       - task: build-rust-package
@@ -38,7 +37,6 @@ tasks:
     desc: run all test
     dir: '{{.USER_WORKING_DIR}}'
     deps:
-      - task: mig-up
     cmds:
       - task: test-rust-package
         vars: {PACKAGE: 'diesel_test'}
@@ -50,9 +48,9 @@ tasks:
         vars: {PACKAGE: 'sea_orm_test'}
   mig-up:
     desc: migrate up by atlas
-    deps: [container-up]
     dir: '{{.USER_WORKING_DIR}}/migrator'
     cmds:
+      - sleep 10
       - atlas migrate apply --env local
     required:
       vars: [TARGET]
@@ -86,6 +84,7 @@ tasks:
     decs: generarte prisma entity
     dir: '{{.USER_WORKING_DIR}}/prisma_test'
     cmds:
+      - echo  '{{.USER_WORKING_DIR}}/prisma_test'
       - cargo prisma generate
   prisma-push:
     decs: push prisma migrate
